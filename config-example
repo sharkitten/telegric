@@ -1,0 +1,13 @@
+[general]
+single_mode: True
+
+[telegram]
+token:
+chatid:
+sender: username
+
+[irc]
+server:
+channel:
+nickname: 
+port: 6667
