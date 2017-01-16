@@ -8,7 +8,6 @@ class TGBot(telepot.Bot):
 		self.chatID = int(config['chatid'])
 		self.bot = telepot.Bot(config['token'])
 		self.users = set()
-		#print(self.bot.getMe())
 
 	def setIRCbot(self, bot):
 		self.ircbot = bot
