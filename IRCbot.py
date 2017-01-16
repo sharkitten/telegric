@@ -73,7 +73,6 @@ class IRCBot(irc.bot.SingleServerIRCBot):
 		return event.source.split('!')[0]
 
 	def on_disconnect(self, c, e):
-		print("disconnected")
 		self.connect()
 
 	def connect(self):
