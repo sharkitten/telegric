@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 import irc.bot
 import sys
 import irc.strings
@@ -14,7 +12,6 @@ class IRCBot(irc.bot.SingleServerIRCBot):
 		self.client = irc.bot.SingleServerIRCBot([(self.server, self.port)], self.nickname, self.nickname)
 		self.channel = config['channel']
 		self.conn = self.client.connection
-		self.reconnection_interval = 60
 
 	def register_handlers(self):
 		self.conn.add_global_handler('welcome', self.on_welcome)
