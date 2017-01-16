@@ -77,7 +77,6 @@ class IRCBot(irc.bot.SingleServerIRCBot):
 		self.connect()
 
 	def connect(self):
-		#self.conn.connect(self.server, self.port,self.nickname)
 		self.client.connect()
 
 	def sendMessage(self, recipient, msg):
