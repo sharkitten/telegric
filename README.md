@@ -1,2 +1,2 @@
 # telegric
-Offers basic bidirectional synching between Telegram and IRC.
+Offers basic bidirectional synching between Telegram groups and IRC channels.
