@@ -28,13 +28,6 @@ class IRCBot(irc.bot.SingleServerIRCBot):
 		self.conn.add_global_handler('topic', self.on_message)
 		self.conn.add_global_handler('disconnect', self.on_disconnect)
 
-
-#        for i in ["disconnect", "join", "kick", "mode",
-#                  "namreply", "nick", "part", "quit"]:
-#            self.connection.add_global_handler(i,
-#                                               getattr(self, "_on_" + i),
-#                                               -10)
-
 	def start(self):
 		self.register_handlers()
 		self.client.start()
