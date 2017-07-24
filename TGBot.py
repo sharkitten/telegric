@@ -7,7 +7,7 @@ class TGBot(telepot.Bot):
         self.singleMode = config['general']['single_mode'] == 'True'
         config = config['telegram']
         self.chatID = int(config['chatid'])
-        self.bot = telepot.Bot(config['token'])
+        telepot.Bot.__init__(self, config['token'])
 
     def setIRCbot(self, bot):
         """Set self.ircbot to bot, assuming it's an IRCbot instance."""
@@ -16,7 +16,7 @@ class TGBot(telepot.Bot):
     def start(self):
         """Start loop handling incoming TG messages with self.handle."""
         from telepot.loop import MessageLoop
-        MessageLoop(self.bot, self.handle).run_forever()
+        MessageLoop(self, self.handle).run_forever()
 
     def handle(self, msg):
         """Process TG message to possible IRCbot output.
@@ -58,4 +58,4 @@ class TGBot(telepot.Bot):
 
     def send(self, msg):
         """Send message msg as TG message to chat identified by self.chatID."""
-        self.bot.sendMessage(self.chatID, msg)
+        self.sendMessage(self.chatID, msg)
