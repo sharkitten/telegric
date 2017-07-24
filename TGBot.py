@@ -13,7 +13,8 @@ class TGBot(telepot.Bot):
 		self.ircbot = bot
 
 	def start(self):
-		self.bot.message_loop(self.handle)
+                from telepot.loop import MessageLoop
+                MessageLoop(self.bot, self.handle).run_forever()
 
 	def handle(self, msg):
 		if (not self.ircbot.conn.is_connected()):
