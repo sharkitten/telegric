@@ -6,7 +6,6 @@ class TGBot(telepot.Bot):
         """Set TG bot attributes from config file."""
         self.singleMode = config['general']['single_mode'] == 'True'
         config = config['telegram']
-        self.sender = config['sender']
         self.chatID = int(config['chatid'])
         self.bot = telepot.Bot(config['token'])
 
@@ -39,8 +38,7 @@ class TGBot(telepot.Bot):
         Will parse msg.text or msg.stricker.emoji fine, otherwise set a
         'message type not supported' message. On self.singleMode, will return
         only this message body, otherwise will prepend a <>-delimited name;
-        either msg.from.username (replace 'username' with whatever is set
-        in self.sender via config file), or msg.from.first_name.
+        either msg.from.username (if present), or msg.from.first_name.
         """
         try:
             body = msg['text']
@@ -53,7 +51,7 @@ class TGBot(telepot.Bot):
             return body
 
         try:
-            sender = msg['from'][self.sender]
+            sender = msg['from']['username']
         except:
             sender = msg['from']['first_name']
         return '<{}> {}'.format(sender, body)
