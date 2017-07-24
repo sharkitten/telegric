@@ -19,11 +19,11 @@ class TGBot(telepot.Bot):
 		if (not self.ircbot.conn.is_connected()):
 			self.ircbot.conn.connected_checker()
 		print(msg)
-		self.users.add(msg['from']['username'])
+		self.users.add(msg['chat']['username'])
 		if (msg['chat']['id']==self.chatID):
 			self.ircbot.sendMessage(self.ircbot.channel, self.formatMessage(msg))
 		else:
-			print('message received from non-handled chat {} with ID {}'.format(msg['chat']['title'], msg['chat']['id']))
+			print('message received from non-handled chat with ID {}'.format(msg['chat']['id']))
 
 	def formatMessage(self, msg):
 		try:
