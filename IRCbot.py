@@ -1,6 +1,5 @@
 import irc.bot
 import sys
-import irc.strings
 
 
 class IRCBot(irc.bot.SingleServerIRCBot):
