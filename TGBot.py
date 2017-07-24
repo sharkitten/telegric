@@ -25,11 +25,6 @@ class TGBot(telepot.Bot):
         Sends msg formatted with self.formatMessage to self.ircbot if
         msg.chat.id == self.chatID, otherwise prints a failure msg.
         """
-
-        # Function unclear (where is .connected_checker from?).
-        if (not self.ircbot.connection.is_connected()):
-            self.ircbot.connection.connected_checker()
-
         print(msg)
         if msg['chat']['id'] == self.chatID:
             self.ircbot.sendMessage(self.ircbot.channel,
