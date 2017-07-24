@@ -11,28 +11,25 @@ class IRCBot(irc.bot.SingleServerIRCBot):
         self.server = config['server']
         self.port = int(config['port'])
         self.nickname = config['nickname']
-        self.client = irc.bot.SingleServerIRCBot([(self.server, self.port)],
-                                                 self.nickname, self.nickname)
         self.channel = config['channel']
-        self.conn = self.client.connection
+        irc.bot.SingleServerIRCBot.__init__(self, [(self.server, self.port)],
+                                            self.nickname, self.nickname)
+        self.register_handlers()
 
     def register_handlers(self):
-        """Add handler methods for various IRC protocol events."""
-        self.conn.add_global_handler('welcome', self.on_welcome)
-        self.conn.add_global_handler('nicknameinuse', self.on_nicknameinuse)
-        self.conn.add_global_handler('privmsg', self.on_privmsg)
-        self.conn.add_global_handler('pubmsg', self.on_message)
-        self.conn.add_global_handler('action', self.on_message)
-        self.conn.add_global_handler('part', self.on_message)
-        self.conn.add_global_handler('quit', self.on_message)
-        self.conn.add_global_handler('join', self.on_message)
-        self.conn.add_global_handler('topic', self.on_message)
-        self.conn.add_global_handler('disconnect', self.on_disconnect)
+        """Add handler methods for various IRC protocol events.
 
-    def start(self):
-        """Call self.register_handlers and start client."""
-        self.register_handlers()
-        self.client.start()
+        Note that handlers of name 'on_' + event name are added automatically,
+        so lines for 'nicknameinuse', 'privmsg', 'disconnect' would just add
+        double handlers for on_nicknameinuse, on_privmsg, on_disconnect.
+        """
+        self.connection.add_global_handler('welcome', self.on_welcome)
+        self.connection.add_global_handler('pubmsg', self.on_message)
+        self.connection.add_global_handler('action', self.on_message)
+        self.connection.add_global_handler('part', self.on_message)
+        self.connection.add_global_handler('quit', self.on_message)
+        self.connection.add_global_handler('join', self.on_message)
+        self.connection.add_global_handler('topic', self.on_message)
 
     def on_nicknameinuse(self, c, e):
         """When nick is in use, reset it via NICK with '_' suffix added."""
@@ -96,13 +93,9 @@ class IRCBot(irc.bot.SingleServerIRCBot):
         """Reconnect client to IRC network."""
         self.connect()
 
-    def connect(self):
-        """Connect client to IRC network."""
-        self.client.connect()
-
     def sendMessage(self, recipient, msg):
         """Try sending msg to recipient via PRIVMSG, print error on failure."""
         try:
-            self.conn.privmsg(recipient, msg)
+            self.connection.privmsg(recipient, msg)
         except Exception as e:
             sys.stderr.write(str(e) + '\n')

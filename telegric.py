@@ -24,5 +24,5 @@ if __name__ == '__main__':
 
     while True:
         time.sleep(30)
-        if (not irc.conn.is_connected()):
+        if (not irc.connection.is_connected()):
             irc.connect()
