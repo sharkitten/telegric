@@ -34,7 +34,8 @@ class TGBot(telepot.Bot):
             self.ircbot.connection.connected_checker()
 
         print(msg)
-        self.users.add(msg['chat']['username'])
+        if msg['chat']['type'] == 'group':
+            self.users.add(msg['from']['username'])
         if msg['chat']['id'] == self.chatID:
             self.ircbot.sendMessage(self.ircbot.channel,
                                     self.formatMessage(msg))
