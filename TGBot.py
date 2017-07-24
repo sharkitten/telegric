@@ -3,13 +3,12 @@ import telepot
 
 class TGBot(telepot.Bot):
     def __init__(self, config):
-        """Set TG bot attributes from config file, create empty self.users."""
+        """Set TG bot attributes from config file."""
         self.singleMode = config['general']['single_mode'] == 'True'
         config = config['telegram']
         self.sender = config['sender']
         self.chatID = int(config['chatid'])
         self.bot = telepot.Bot(config['token'])
-        self.users = set()
 
     def setIRCbot(self, bot):
         """Set self.ircbot to bot, assuming it's an IRCbot instance."""
@@ -21,9 +20,7 @@ class TGBot(telepot.Bot):
         MessageLoop(self.bot, self.handle).run_forever()
 
     def handle(self, msg):
-        """Process TG message to possible IRCbot output, adapt self.users set.
-
-        If msg.chat.username is not yet in self.users, adds it.
+        """Process TG message to possible IRCbot output.
 
         Sends msg formatted with self.formatMessage to self.ircbot if
         msg.chat.id == self.chatID, otherwise prints a failure msg.
@@ -34,8 +31,6 @@ class TGBot(telepot.Bot):
             self.ircbot.connection.connected_checker()
 
         print(msg)
-        if msg['chat']['type'] == 'group':
-            self.users.add(msg['from']['username'])
         if msg['chat']['id'] == self.chatID:
             self.ircbot.sendMessage(self.ircbot.channel,
                                     self.formatMessage(msg))

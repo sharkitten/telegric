@@ -76,10 +76,6 @@ class IRCBot(irc.bot.SingleServerIRCBot):
         elif type == 'part' or type == 'quit':
             return '{} left'.format(self.getNickname(msg))
 
-        # This is quite dubious (what about usernames that occur in language?).
-        for user in self.TGbot.users:
-            body = str.replace(body, user, '@'+user)
-
         return '<{}> {}'.format(sender, body)
 
     def setTGbot(self, bot):
